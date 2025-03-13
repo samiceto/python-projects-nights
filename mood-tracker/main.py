@@ -30,8 +30,13 @@ data = load_mood_data()
 if not data.empty:
     st.subheader("Mood Trends Over Time")
 
-    data["Date"] = pd.to_datetime(data['Date'])
-    data.columns = data.columns.str.strip()  # Remove leading/trailing spaces from column names
+    
+    
+    if 'Date' in data.columns:
+        data["Date"] = pd.to_datetime(data['Date'])
+        data.columns = data.columns.str.strip()  # Remove leading/trailing spaces from column names
 
-    mood_counts = data.groupby("Mood").count()["Date"]
-    st.bar_chart(mood_counts)
+        mood_counts = data.groupby("Mood").count()["Date"]
+        st.bar_chart(mood_counts)
+    else:
+        st.subheader("Date column not found!")
